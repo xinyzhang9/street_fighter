@@ -28,6 +28,8 @@ function PlayGround(selector_ch1)
 			}
 			else if(e.keyCode == 70) {
 				ch1.updateAction("ROUND_HOUSE");
+			}else if(e.keyCode == 32){
+				ch1.updateAction("JUMP");
 			}
 		});
 	}
@@ -53,23 +55,25 @@ function Character(selector)
 		'KICK': 		{ 'y': 6, 'x': [0, 1, 2, 3, 4] },
 		'PUNCH': 		{ 'y': 2, 'x': [0, 1, 2] },
 		'BEAM': 		{ 'y': 0, 'x': [0, 1, 2, 3] },
-		'ROUND_HOUSE': 	{ 'y': 7, 'x': [0, 1, 2, 3, 4]}
+		'ROUND_HOUSE': 	{ 'y': 7, 'x': [0, 1, 2, 3, 4]},
+		'JUMP':         {'y': 8, 'x': [0,1,2,3,4,5,6]}
 	}
 	var counter = 0;			//stores which sprite (in the x-direction) it should display 
 	this.action = "STANDING";	//default action is for the character to stand
 	this.ch_x=0;					//x_coordinate of the character
-	this.ch_y=0;					//y_coordinate of the character
+	this.ch_y=120;					//y_coordinate of the character
 	//ch_x, ch_y and action could really all be private variables and I could have just done var instead of this. but to make debuggin easier, I am making them an instance variable so that it would display when you log the chracter object
 
 	this.drawSprite = function(y, x)
 	{
-		$('#'+selector).css('background', "url('images/ken.png') "+x*(-70)+"px "+(-80*y)+"px").css('left', this.ch_x+"px");
+		$('#'+selector).css('background', "url('images/ken.png') "+x*(-70)+"px "+(-80*y)+"px").css('left', this.ch_x+"px").css('top',this.ch_y+"px");
 	}
 
 	//updates the action
 	this.updateAction = function(action)
 	{
 		counter=0;
+		y_counter = 0;
 		this.action = action;
 	}
 	//updates the character's coordinates and changes the sprite's counter to simulate the character moving
@@ -86,6 +90,16 @@ function Character(selector)
 			this.ch_x = this.ch_x-10;
 		else if(this.action == 'WALK_RIGHT')
 			this.ch_x = this.ch_x+10;
+		else if(this.action == 'JUMP'){
+ 
+			var arr = [120,110,100,90,100,110,120];
+			if(y_counter >= arr.length){
+				y_counter = 0;
+				this.ch_y = 120;
+				this.action = 'STANDING';
+			}
+			this.ch_y = arr[y_counter++];
+		}
 	}
 
 	//draws the character on the screen
@@ -96,3 +110,4 @@ function Character(selector)
 		this.drawSprite(constants[this.action].y, constants[this.action].x[counter++]);
 	}
 }
+
