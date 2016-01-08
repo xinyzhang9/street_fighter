@@ -6,7 +6,7 @@
 	<script type="text/javascript" src="js/game.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			a = new PlayGround('ch1');	//create a new playGround and pass the id where the first character will be displayed
+			a = new PlayGround('ch1','beam1');	//create a new playGround and pass the id where the first character will be displayed
 			a.initialize();
 			setInterval(a.mainLoop, 200);
 		});
@@ -16,6 +16,7 @@
 
 	<div id="field">
 		<div id="ch1" class="character"></div>
+		<div id="beam1" class="character"></div>
 		<div id="ch2" class="character"></div>
 	</div>
 
